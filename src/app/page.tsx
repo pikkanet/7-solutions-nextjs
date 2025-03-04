@@ -1,35 +1,157 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useRef, useState } from "react";
+
+interface Todo {
+  type: string;
+  name: string;
+}
+
+enum TodoType {
+  FRUIT = "Fruit",
+  VEGETABLE = "Vegetable",
+}
+
+const TodoPage: React.FC = () => {
+  const rawData: Todo[] = [
+    {
+      type: "Fruit",
+      name: "Apple",
+    },
+    {
+      type: "Vegetable",
+      name: "Broccoli",
+    },
+    {
+      type: "Vegetable",
+      name: "Mushroom",
+    },
+    {
+      type: "Fruit",
+      name: "Banana",
+    },
+    {
+      type: "Vegetable",
+      name: "Tomato",
+    },
+    {
+      type: "Fruit",
+      name: "Orange",
+    },
+    {
+      type: "Fruit",
+      name: "Mango",
+    },
+    {
+      type: "Fruit",
+      name: "Pineapple",
+    },
+    {
+      type: "Vegetable",
+      name: "Cucumber",
+    },
+    {
+      type: "Fruit",
+      name: "Watermelon",
+    },
+    {
+      type: "Vegetable",
+      name: "Carrot",
+    },
+  ];
+  const [todoList, setTodoList] = useState(rawData);
+  const [fruits, setFruits] = useState<Todo[]>([]);
+  const [vegetables, setVegetables] = useState<Todo[]>([]);
+  const timeouts = useRef<{ [key: string]: NodeJS.Timeout }>({});
+
+  const onClickTodoList = (todo: Todo) => {
+    if (todo.type === TodoType.FRUIT) {
+      setFruits((prev) => [...prev, todo]);
+      timeouts.current[todo.name] = setTimeout(() => {
+        setFruits((prevItems) =>
+          prevItems.filter((item) => item.name !== todo.name)
+        );
+
+        setTodoList((prev) => [...prev, todo]);
+      }, 5000);
+    } else if (todo.type === TodoType.VEGETABLE) {
+      setVegetables((prev) => [...prev, todo]);
+      timeouts.current[todo.name] = setTimeout(() => {
+        setVegetables((prevItems) =>
+          prevItems.filter((item) => item.name !== todo.name)
+        );
+        if (!vegetables.includes(todo)) {
+          setTodoList((prev) => [...prev, todo]);
+        }
+      }, 5000);
+    }
+    setTodoList((prev) => prev.filter((item) => todo.name !== item.name));
+  };
+
+  const removeTodoAndClearTimeout = (todo: Todo) => {
+    if (timeouts.current[todo.name]) {
+      clearTimeout(timeouts.current[todo.name]);
+      delete timeouts.current[todo.name];
+    }
+    if (todo.type === TodoType.FRUIT) {
+      setFruits((prev) => prev.filter((fruit) => fruit.name !== todo.name));
+    } else {
+      setVegetables((prev) =>
+        prev.filter((vegetable) => vegetable.name !== todo.name)
+      );
+    }
+    setTodoList((prev) => [...prev, todo]);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex w-full justify-center">
+      <div className="flex gap-4 margin-top-1 w-1/2">
+        <div className="flex flex-col w-1/3 gap-2">
+          {todoList.map((todo, index) => (
+            <button
+              className="h-14 border hover:bg-[var(--hover-color)]"
+              key={index}
+              onClick={() => onClickTodoList(todo)}
+            >
+              {todo.name}
+            </button>
+          ))}
         </div>
-      </main>
+        <div className="flex flex-col h-[700px] items-center w-1/3 border">
+          <div className="h-11 w-full flex justify-center items-center bg-[var(--gray-200)]">
+            <p className="text-lg font-bold">Fruits</p>
+          </div>
+          <div className="w-full flex flex-col p-3 gap-2">
+            {fruits.map((item, index) => (
+              <button
+                className="h-14 border  hover:bg-[var(--hover-color)]"
+                key={index}
+                onClick={() => removeTodoAndClearTimeout(item)}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col h-[700px] items-center w-1/3 border">
+          <div className="h-11 w-full flex justify-center items-center bg-[var(--gray-200)]">
+            <p className="text-lg font-bold">Vegetable</p>
+          </div>
+          <div className="w-full flex flex-col p-3 gap-2">
+            {vegetables.map((item, index) => (
+              <button
+                className="h-14 border  hover:bg-[var(--hover-color)]"
+                key={index}
+                onClick={() => removeTodoAndClearTimeout(item)}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default TodoPage;
