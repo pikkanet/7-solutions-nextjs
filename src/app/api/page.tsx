@@ -20,7 +20,7 @@ const ApiPage: React.FC = () => {
   return (
     <div className="pl-[25%] items-center">
       <h1>
-        API from
+        API from{" "}
         <a href={apiLink} target="_blank">
           {apiLink}
         </a>
