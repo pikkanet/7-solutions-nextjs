@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 7solutions - Next.js Assignment
 
-## Getting Started
+This is a Next.js project developed for the 7solutions Frontend Assignment.
 
-First, run the development server:
+## Deployed Link
+
+You can view the deployed application here: [7solutions - Deployed Application](https://7-solutions-nextjs.vercel.app/)
+
+## Pages
+
+### 1. Auto Delete Todo List (First Page)
+
+This page implements a Todo List where tasks are automatically deleted after a certain condition or duration. The functionality demonstrates managing state, updating UI, and handling data efficiently in Next.js.
+
+### 2. Create Data from API (Second Page - Optional)
+
+This page calls the backend API and displays the transformed data. The API takes JSON data from another source, processes it, and returns a new dataset grouped by department.
+
+The backend API used for this feature is built with Node.js and can be found here: [7-solutions-node Repository](https://github.com/pikkanet/7-solutions-node).&#x20;
+
+## Installation and Setup
+
+1. Clone the repository:
+
+```bash
+ git clone git@github.com:pikkanet/7-solutions-nextjs.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd 7-solutions-nextjs
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build and Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To build the application for production, run:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+To start the production server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application is deployed via Vercel at the provided link.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
